@@ -1,0 +1,510 @@
+/* ════════════════════════════════════════
+   ProfilAkun.css — dengan Dark Theme penuh
+════════════════════════════════════════ */
+
+.profil-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+    background: #f4f4f6;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    transition: background 0.3s;
+}
+
+.profil-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: 230px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+/* ── Page Title ── */
+.profil-page-title {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.profil-page-title-text h1 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+    transition: color 0.3s;
+}
+
+.profil-page-title-text p {
+    font-size: 13px;
+    color: #777;
+    transition: color 0.3s;
+}
+
+.edit-profil-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: #1e1e2e;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.edit-profil-btn svg { width: 15px; height: 15px; }
+
+/* ── Left Card ── */
+.left-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e8e8e8;
+    overflow: hidden;
+    transition: background 0.3s, border-color 0.3s;
+}
+
+.profile-photo-area {
+    background: #d0d4dc;
+    height: 130px;
+    position: relative;
+    transition: background 0.3s;
+}
+
+.profile-avatar-wrap {
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.profile-avatar-circle {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #8b6f47;
+    border: 3px solid white;
+    overflow: hidden;
+    position: relative;
+    transition: border-color 0.3s;
+}
+
+.profile-avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
+
+.camera-btn {
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 22px; height: 22px;
+    background: #555;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+.camera-btn svg { width: 11px; height: 11px; color: white; }
+
+.left-card-body {
+    padding: 40px 18px 18px;
+    text-align: center;
+}
+
+.left-name {
+    font-size: 16px; font-weight: 800;
+    color: #1a1a2e; margin-bottom: 4px;
+    transition: color 0.3s;
+}
+
+.left-meta {
+    font-size: 12px; color: #888;
+    display: flex; align-items: center;
+    justify-content: center; gap: 6px;
+    transition: color 0.3s;
+}
+
+.left-meta-sep { color: #ccc; }
+
+.left-fields {
+    margin-top: 18px;
+    display: flex; flex-direction: column;
+    gap: 12px; text-align: left;
+}
+
+.left-field { display: flex; align-items: flex-start; gap: 10px; }
+
+.left-field-icon { color: #aaa; margin-top: 1px; flex-shrink: 0; }
+.left-field-icon svg { width: 15px; height: 15px; }
+
+.left-field-label {
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 1.2px; color: #bbb;
+    text-transform: uppercase; margin-bottom: 1px;
+    transition: color 0.3s;
+}
+
+.left-field-value {
+    font-size: 13px; font-weight: 600;
+    color: #1a1a2e;
+    transition: color 0.3s;
+}
+
+.verified-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 700;
+    background: #eff6ff; color: #2563eb;
+    padding: 2px 8px; border-radius: 4px; margin-left: 4px;
+}
+
+.verified-badge svg { width: 11px; height: 11px; }
+
+.terakhir-aktif {
+    margin-top: 14px; padding-top: 14px;
+    border-top: 1px solid #f0f0f0; text-align: left;
+    transition: border-color 0.3s;
+}
+
+.terakhir-aktif-label {
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 1.2px; color: #bbb;
+    text-transform: uppercase; margin-bottom: 5px;
+}
+
+.terakhir-aktif-val {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; color: #666;
+    transition: color 0.3s;
+}
+
+.terakhir-aktif-val svg { width: 13px; height: 13px; color: #aaa; }
+
+/* ── Security Card ── */
+.security-card {
+    background: white;
+    border-radius: 12px; border: 1px solid #e8e8e8;
+    margin-top: 14px; padding: 14px 16px;
+    transition: background 0.3s, border-color 0.3s;
+}
+
+.security-card-title {
+    display: flex; align-items: center; gap: 7px;
+    font-size: 13px; font-weight: 700; color: #1a1a2e;
+    margin-bottom: 10px; transition: color 0.3s;
+}
+
+.security-card-title svg { width: 14px; height: 14px; color: #555; }
+
+.twofa-row {
+    display: flex; align-items: center; gap: 10px;
+    background: #f8f8f8; border-radius: 8px; padding: 10px 12px;
+    transition: background 0.3s;
+}
+
+.twofa-icon { color: #555; }
+.twofa-icon svg { width: 15px; height: 15px; }
+
+.twofa-label {
+    font-size: 13px; font-weight: 600; color: #1a1a2e;
+    transition: color 0.3s;
+}
+
+/* ── Right Column ── */
+.right-col { display: flex; flex-direction: column; gap: 18px; }
+
+.section-card {
+    background: white; border-radius: 12px;
+    border: 1px solid #e8e8e8; overflow: hidden;
+    transition: background 0.3s, border-color 0.3s;
+}
+
+.section-card-title {
+    display: flex; align-items: center; gap: 0;
+    padding: 16px 22px;
+    font-size: 15px; font-weight: 800; color: #1a1a2e;
+    border-left: 4px solid #1e1e2e;
+    border-bottom: 1px solid #f0f0f0;
+    transition: color 0.3s, border-color 0.3s;
+}
+
+/* ── Info Grid ── */
+.info-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; padding: 6px 0;
+}
+
+.info-cell { padding: 14px 22px; }
+
+.info-cell-label {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; color: #999; margin-bottom: 6px;
+    transition: color 0.3s;
+}
+
+.info-cell-label svg { width: 13px; height: 13px; }
+
+.info-cell-value {
+    font-size: 13px; color: #333;
+    background: #f8f8f8; border: 1.5px solid #ebebeb;
+    border-radius: 7px; padding: 9px 13px;
+    transition: background 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.info-input {
+    width: 100%; font-size: 13px; color: #1a1a2e;
+    background: #fff; border: 1.5px solid #2563eb;
+    border-radius: 7px; padding: 9px 13px;
+    outline: none; font-family: inherit;
+    transition: background 0.3s, border-color 0.3s, color 0.3s;
+}
+
+/* ── Kedinasan Table ── */
+.kedinasan-table { width: 100%; border-collapse: collapse; }
+.kedinasan-table tr { border-bottom: 1px solid #f5f5f5; transition: border-color 0.3s; }
+.kedinasan-table tr:last-child { border-bottom: none; }
+.kedinasan-table td { padding: 13px 22px; font-size: 13px; vertical-align: middle; }
+.kedinasan-table td:first-child { color: #888; width: 170px; transition: color 0.3s; }
+.kedinasan-table td:last-child { font-weight: 600; color: #1a1a2e; transition: color 0.3s; }
+
+.terverifikasi-badge {
+    display: inline-flex; align-items: center;
+    background: #1e1e2e; color: white;
+    font-size: 11px; font-weight: 700;
+    padding: 4px 12px; border-radius: 5px;
+}
+
+/* ── Peran Grid ── */
+.peran-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; border-top: 1px solid #f0f0f0;
+    transition: border-color 0.3s;
+}
+
+.peran-col { padding: 18px 22px; }
+.peran-col:first-child { border-right: 1px solid #f0f0f0; transition: border-color 0.3s; }
+
+.peran-col-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.peran-col-title  { font-size: 13px; font-weight: 700; color: #1a1a2e; transition: color 0.3s; }
+.peran-col-icon   { color: #bbb; }
+.peran-col-icon svg { width: 14px; height: 14px; }
+.peran-col-desc   { font-size: 12px; color: #aaa; margin-bottom: 14px; }
+
+.super-admin-box {
+    background: #f8f8f8; border: 1.5px solid #e0e0e0;
+    border-radius: 8px; padding: 12px 16px;
+    font-size: 14px; font-weight: 800; color: #1a1a2e;
+    margin-bottom: 10px;
+    transition: background 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.peran-list { display: flex; flex-direction: column; gap: 5px; }
+
+.peran-list-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: #555; transition: color 0.3s; }
+.peran-list-item::before { content: '•'; color: #aaa; font-size: 14px; }
+
+.kredensial-note { font-size: 12px; color: #888; margin-bottom: 14px; line-height: 1.5; transition: color 0.3s; }
+
+.ubah-sandi-btn {
+    width: 100%; padding: 10px;
+    background: white; border: 1.5px solid #e0e0e0;
+    border-radius: 8px; font-size: 13px; font-weight: 600;
+    color: #333; cursor: pointer;
+    transition: background 0.15s, border-color 0.3s, color 0.3s;
+}
+
+.ubah-sandi-btn:hover { background: #f4f4f6; }
+
+/* ── Sesi Login ── */
+.sesi-header {
+    display: flex; align-items: center; gap: 8px;
+    padding: 16px 22px; font-size: 13px; font-weight: 700; color: #1a1a2e;
+    border-bottom: 1px solid #f0f0f0; border-top: 1px solid #f0f0f0;
+    transition: color 0.3s, border-color 0.3s;
+}
+
+.sesi-header svg { width: 14px; height: 14px; color: #aaa; }
+
+.sesi-list { display: flex; flex-direction: column; }
+
+.sesi-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 22px; border-bottom: 1px solid #f7f7f7;
+    transition: border-color 0.3s;
+}
+
+.sesi-item:last-child { border-bottom: none; }
+
+.sesi-device-icon {
+    width: 36px; height: 36px; background: #f0f0f0;
+    border-radius: 8px; display: flex; align-items: center;
+    justify-content: center; color: #666; flex-shrink: 0;
+    transition: background 0.3s, color 0.3s;
+}
+
+.sesi-device-icon svg { width: 18px; height: 18px; }
+
+.sesi-detail { flex: 1; }
+.sesi-browser { font-size: 13px; font-weight: 700; color: #1a1a2e; transition: color 0.3s; }
+.sesi-ip      { font-size: 12px; color: #aaa; margin-top: 1px; transition: color 0.3s; }
+.sesi-right   { text-align: right; }
+.sesi-time    { font-size: 12px; color: #888; }
+.sesi-active  { font-size: 11px; font-weight: 800; color: #1e1e2e; margin-top: 2px; transition: color 0.3s; }
+
+.lihat-semua-btn {
+    display: flex; align-items: center; gap: 5px;
+    padding: 14px 22px; font-size: 13px; font-weight: 600; color: #555;
+    cursor: pointer; border-top: 1px solid #f0f0f0;
+    background: none; border-left: none; border-right: none; border-bottom: none;
+    width: 100%; text-align: left;
+    transition: color 0.3s, border-color 0.3s;
+}
+
+.lihat-semua-btn svg { width: 14px; height: 14px; }
+
+/* ── Footer ── */
+.page-footer {
+    background: white; border-top: 1px solid #e8e8e8;
+    padding: 12px 28px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 11px; color: #999;
+    transition: background 0.3s, border-color 0.3s;
+}
+
+.footer-links { display: flex; gap: 16px; }
+.footer-links a { color: #999; text-decoration: none; cursor: pointer; transition: color 0.2s; }
+.footer-links a:hover { color: #555; text-decoration: underline; }
+
+/* ── Modal ── */
+.modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 200; padding: 20px;
+    transition: background 0.3s;
+}
+
+.modal-box {
+    background: white; border-radius: 12px;
+    width: 100%; max-width: 480px; max-height: 80vh;
+    display: flex; flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    transition: background 0.3s;
+}
+
+.modal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; border-bottom: 1px solid #f0f0f0;
+    font-size: 15px; font-weight: 700; color: #1a1a2e;
+    flex-shrink: 0; transition: color 0.3s, border-color 0.3s;
+}
+
+.modal-close {
+    background: none; border: none; cursor: pointer; color: #aaa;
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 6px; transition: background 0.15s;
+}
+
+.modal-close:hover { background: #f0f0f0; color: #333; }
+
+.modal-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+
+/* ════════════════════════════════════════════
+   DARK THEME — ProfilAkun
+════════════════════════════════════════════ */
+
+/* Wrapper & background */
+[data-theme="dark"] .profil-wrapper          { background: #0f172a; }
+[data-theme="dark"] .profil-content          { background: #0f172a; }
+
+/* Page title */
+[data-theme="dark"] .profil-page-title-text h1 { color: #f1f5f9; }
+[data-theme="dark"] .profil-page-title-text p  { color: #64748b; }
+
+/* Edit button */
+[data-theme="dark"] .edit-profil-btn                            { background: #2563eb; color: #fff; border-color: #2563eb; }
+[data-theme="dark"] .edit-profil-btn[style*="background: #fff"] { background: #1e293b !important; color: #e2e8f0 !important; border-color: #334155 !important; }
+[data-theme="dark"] .edit-profil-btn[style*="background: #eee"] { background: #334155 !important; color: #94a3b8 !important; border-color: #334155 !important; }
+
+/* Left card */
+[data-theme="dark"] .left-card               { background: #1e293b; border-color: #334155; }
+[data-theme="dark"] .profile-photo-area      { background: #263548; }
+[data-theme="dark"] .profile-avatar-circle   { border-color: #1e293b; }
+[data-theme="dark"] .left-name               { color: #f1f5f9; }
+[data-theme="dark"] .left-meta               { color: #64748b; }
+[data-theme="dark"] .left-meta-sep           { color: #334155; }
+[data-theme="dark"] .left-field-label        { color: #475569; }
+[data-theme="dark"] .left-field-value        { color: #e2e8f0; }
+[data-theme="dark"] .left-field-icon         { color: #475569; }
+[data-theme="dark"] .terakhir-aktif          { border-top-color: #334155; }
+[data-theme="dark"] .terakhir-aktif-label    { color: #475569; }
+[data-theme="dark"] .terakhir-aktif-val      { color: #94a3b8; }
+
+/* Security card */
+[data-theme="dark"] .security-card           { background: #1e293b; border-color: #334155; }
+[data-theme="dark"] .security-card-title     { color: #e2e8f0; }
+[data-theme="dark"] .twofa-row               { background: #263548; }
+[data-theme="dark"] .twofa-label             { color: #e2e8f0; }
+[data-theme="dark"] .twofa-icon              { color: #64748b; }
+
+/* Section cards */
+[data-theme="dark"] .section-card            { background: #1e293b; border-color: #334155; }
+[data-theme="dark"] .section-card-title      { color: #f1f5f9; border-left-color: #2563eb; border-bottom-color: #334155; }
+
+/* Info grid */
+[data-theme="dark"] .info-cell-label         { color: #64748b; }
+[data-theme="dark"] .info-cell-value         { background: #0f172a; border-color: #334155; color: #e2e8f0; }
+[data-theme="dark"] .info-input              { background: #0f172a; border-color: #2563eb; color: #e2e8f0; }
+[data-theme="dark"] .info-cell[style*="borderTop"] { border-top-color: #334155 !important; }
+
+/* Kedinasan table */
+[data-theme="dark"] .kedinasan-table tr      { border-bottom-color: #334155; }
+[data-theme="dark"] .kedinasan-table td:first-child { color: #64748b; }
+[data-theme="dark"] .kedinasan-table td:last-child  { color: #e2e8f0; }
+
+/* Peran grid */
+[data-theme="dark"] .peran-grid              { border-top-color: #334155; }
+[data-theme="dark"] .peran-col:first-child   { border-right-color: #334155; }
+[data-theme="dark"] .peran-col-title         { color: #e2e8f0; }
+[data-theme="dark"] .peran-col-desc          { color: #475569; }
+[data-theme="dark"] .super-admin-box         { background: #0f172a; border-color: #334155; color: #e2e8f0; }
+[data-theme="dark"] .peran-list-item         { color: #94a3b8; }
+[data-theme="dark"] .kredensial-note         { color: #64748b; }
+[data-theme="dark"] .ubah-sandi-btn          { background: #1e293b; border-color: #334155; color: #e2e8f0; }
+[data-theme="dark"] .ubah-sandi-btn:hover    { background: #263548; }
+
+/* Sesi */
+[data-theme="dark"] .sesi-header             { color: #e2e8f0; border-color: #334155; }
+[data-theme="dark"] .sesi-item               { border-bottom-color: #334155; }
+[data-theme="dark"] .sesi-device-icon        { background: #334155; color: #94a3b8; }
+[data-theme="dark"] .sesi-browser            { color: #e2e8f0; }
+[data-theme="dark"] .sesi-ip                 { color: #475569; }
+[data-theme="dark"] .sesi-active             { color: #60a5fa; }
+[data-theme="dark"] .lihat-semua-btn         { color: #64748b; border-top-color: #334155; }
+
+/* Footer */
+[data-theme="dark"] .page-footer             { background: #1e293b; border-top-color: #334155; color: #475569; }
+[data-theme="dark"] .footer-links a          { color: #475569; }
+[data-theme="dark"] .footer-links a:hover    { color: #94a3b8; }
+
+/* Modal */
+[data-theme="dark"] .modal-overlay           { background: rgba(0,0,0,0.65); }
+[data-theme="dark"] .modal-box               { background: #1e293b; }
+[data-theme="dark"] .modal-header            { color: #f1f5f9; border-bottom-color: #334155; }
+[data-theme="dark"] .modal-close             { color: #64748b; }
+[data-theme="dark"] .modal-close:hover       { background: #334155; color: #e2e8f0; }
+[data-theme="dark"] .modal-body p            { color: #94a3b8; }
+[data-theme="dark"] .modal-body label        { color: #64748b !important; }
+[data-theme="dark"] .modal-body input        { background: #0f172a !important; border-color: #334155 !important; color: #e2e8f0 !important; }
+
+/* Save message */
+[data-theme="dark"] div[style*="background: #e8f5e9"] {
+    background: rgba(34,197,94,0.1) !important;
+    border-color: rgba(34,197,94,0.3) !important;
+    color: #4ade80 !important;
+}

@@ -1,0 +1,156 @@
+/* Shared layout for pages with sidebar */
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+    background: #f4f4f6;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.page-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 100vh;
+}
+
+/* SIDEBAR shared */
+.sidebar {
+    width: 210px;
+    min-width: 210px;
+    background: #fff;
+    border-right: 1px solid #e8e8e8;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.sidebar-brand-icon {
+    width: 34px;
+    height: 34px;
+    background: #1e1e2e;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.sidebar-brand-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.sidebar-brand-text {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a1a2e;
+    line-height: 1.2;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 12px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.nav-item:hover {
+    background: #f4f4f6;
+    color: #1a1a2e;
+}
+
+.nav-item.active {
+    background: #1e1e2e;
+    color: #fff;
+}
+
+.nav-item svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.sidebar-footer {
+    padding: 12px 10px;
+    border-top: 1px solid #eee;
+}
+
+.system-status {
+    padding: 8px 12px;
+    margin-bottom: 8px;
+}
+
+.system-status-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #999;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.status-dot {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #22c55e;
+    font-weight: 500;
+}
+
+.status-dot::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    background: #22c55e;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #e53e3e;
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 100%;
+    transition: background 0.15s;
+}
+
+.logout-btn:hover {
+    background: #fff5f5;
+}
+
+.logout-btn svg {
+    width: 16px;
+    height: 16px;
+}
