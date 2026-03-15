@@ -44,3 +44,4 @@ build/
 
 # OS
 .DS_Store
+.vercel
