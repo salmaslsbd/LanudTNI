@@ -16,9 +16,9 @@ class DataDiriErrorBoundary extends Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="datadiri-wrapper" style={{ display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", height:"100vh", gap:12 }}>
-          <div style={{ fontSize:14, color:"#e53e3e" }}>Terjadi kesalahan saat memuat data. Silakan periksa console.</div>
-          <div style={{ fontSize:12, color:"#888", maxWidth:380, textAlign:"center", wordBreak:"break-word" }}>{this.state.error?.toString()}</div>
+        <div className="datadiri-wrapper" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh", gap: 12 }}>
+          <div style={{ fontSize: 14, color: "#e53e3e" }}>Terjadi kesalahan saat memuat data. Silakan periksa console.</div>
+          <div style={{ fontSize: 12, color: "#888", maxWidth: 380, textAlign: "center", wordBreak: "break-word" }}>{this.state.error?.toString()}</div>
           <button className="back-btn" onClick={this.props.onBack || (() => window.history.back())}><FiChevronLeft size={15} /> Kembali</button>
         </div>
       );
@@ -47,23 +47,23 @@ function getFotoUrl(path) {
 }
 
 export default function DataDiri({ nrp, onNavigate, onLogout }) {
-  const [personel, setPersonel]         = useState(null);
-  const [pendidikan, setPendidikan]     = useState([]);
-  const [jabatanList, setJabatanList]   = useState([]);
-  const [riwayatLog, setRiwayatLog]     = useState([]);
-  const [loading, setLoading]           = useState(true);
-  const [error, setError]               = useState("");
+  const [personel, setPersonel] = useState(null);
+  const [pendidikan, setPendidikan] = useState([]);
+  const [jabatanList, setJabatanList] = useState([]);
+  const [riwayatLog, setRiwayatLog] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [openSections, setOpenSections] = useState({ identitas: true, pendidikan: true, jabatan: true });
-  const [showRiwayatModal, setShowRiwayatModal]   = useState(false);
-  const [showNotif, setShowNotif]                 = useState(false);
-  const [notifList, setNotifList]                 = useState([]);
-  const [unreadCount, setUnreadCount]             = useState(0);
-  const [showUserMenu, setShowUserMenu]           = useState(false);
-  const [showPrivasiModal, setShowPrivasiModal]   = useState(false);
-  const [showBantuanModal, setShowBantuanModal]   = useState(false);
-  const [editMode, setEditMode]         = useState(false);
-  const [editData, setEditData]         = useState({});
-  const [expandNotif, setExpandNotif]   = useState(false);
+  const [showRiwayatModal, setShowRiwayatModal] = useState(false);
+  const [showNotif, setShowNotif] = useState(false);
+  const [notifList, setNotifList] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showPrivasiModal, setShowPrivasiModal] = useState(false);
+  const [showBantuanModal, setShowBantuanModal] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [editData, setEditData] = useState({});
+  const [expandNotif, setExpandNotif] = useState(false);
   const { settings, t } = useSettings();
 
   const admin = JSON.parse(localStorage.getItem("admin") || "{}");
@@ -88,18 +88,18 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
   const fetchPersonel = useCallback(async () => {
     setLoading(true); setError("");
     try {
-      const res  = await fetch(`${API}/personel/${nrp}`, { headers: authHeader() });
+      const res = await fetch(`${API}/personel/${nrp}`, { headers: authHeader() });
       const data = await res.json();
       if (data?.success && data?.data) {
         setPersonel(data.data);
         setPendidikan(data.data.riwayat_pendidikan || []);
-        setJabatanList(data.data.riwayat_jabatan   || []);
-        setRiwayatLog(data.data.riwayat_pembaruan  || []);
+        setJabatanList(data.data.riwayat_jabatan || []);
+        setRiwayatLog(data.data.riwayat_pembaruan || []);
       } else {
         setError(data?.message || t("personnel_not_found"));
       }
     } catch { setError(t("error_unreachable")); }
-    finally  { setLoading(false); }
+    finally { setLoading(false); }
   }, [nrp]);
 
   useEffect(() => {
@@ -110,14 +110,14 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
 
   async function fetchNotifikasi() {
     try {
-      const res  = await fetch(`${API}/dashboard/notifikasi`, { headers: authHeader() });
+      const res = await fetch(`${API}/dashboard/notifikasi`, { headers: authHeader() });
       const data = await res.json();
       if (data.success) { setNotifList(data.data); setUnreadCount(data.unread_count); }
     } catch (e) { console.error(e); }
   }
 
   function toggleSection(key) { setOpenSections((prev) => ({ ...prev, [key]: !prev[key] })); }
-  function closeAll()          { setShowNotif(false); setShowUserMenu(false); }
+  function closeAll() { setShowNotif(false); setShowUserMenu(false); }
 
   function handleEdit() {
     setEditData({
@@ -131,6 +131,10 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
       alamat_domisili: personel.alamat_domisili, nik_ktp: personel.nik_ktp,
       npwp: personel.npwp, tmt_pangkat_terakhir: personel.tmt_pangkat_terakhir,
       asal_masuk_dikma: personel.asal_masuk_dikma, angkatan_dikma: personel.angkatan_dikma,
+      cuti_mulai: personel.cuti_mulai || '',
+      cuti_selesai: personel.cuti_selesai || '',
+      pendidikan_lokasi: personel.pendidikan_lokasi || '',
+      pensiun_mulai: personel.pensiun_mulai || '',
     });
     setEditMode(true);
   }
@@ -140,7 +144,7 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
     try {
       const formData = new FormData();
       Object.keys(editData).forEach(key => { if (editData[key] !== undefined && editData[key] !== null) formData.append(key, editData[key]); });
-      const res  = await fetch(`${API}/personel/${nrp}`, { method: "PUT", headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }, body: formData });
+      const res = await fetch(`${API}/personel/${nrp}`, { method: "PUT", headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }, body: formData });
       const data = await res.json();
       if (data.success) { alert("Data personel berhasil diperbarui."); setEditMode(false); fetchPersonel(); }
       else alert(data.message || "Gagal memperbarui data personel.");
@@ -150,11 +154,11 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
   async function handleUnduhPDF() {
     if (!personel) return;
 
-    const doc   = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+    const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
     const pageW = doc.internal.pageSize.width;
     const pageH = doc.internal.pageSize.height;
     const margin = 14;
-    const tgl   = new Date().toLocaleDateString("id-ID", { day: "2-digit", month: "long", year: "numeric" });
+    const tgl = new Date().toLocaleDateString("id-ID", { day: "2-digit", month: "long", year: "numeric" });
 
     async function toBase64(url) {
       return new Promise((resolve) => {
@@ -162,7 +166,7 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
         if (existingImg && existingImg.complete && existingImg.naturalWidth > 0) {
           try {
             const canvas = document.createElement("canvas");
-            canvas.width  = existingImg.naturalWidth;
+            canvas.width = existingImg.naturalWidth;
             canvas.height = existingImg.naturalHeight;
             canvas.getContext("2d").drawImage(existingImg, 0, 0);
             return resolve(canvas.toDataURL("image/jpeg"));
@@ -173,7 +177,7 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
         img.onload = () => {
           try {
             const canvas = document.createElement("canvas");
-            canvas.width  = img.naturalWidth;
+            canvas.width = img.naturalWidth;
             canvas.height = img.naturalHeight;
             canvas.getContext("2d").drawImage(img, 0, 0);
             resolve(canvas.toDataURL("image/jpeg"));
@@ -184,7 +188,7 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
       });
     }
 
-    const fotoUrl    = personel.foto_url ? (personel.foto_url.startsWith("http") ? personel.foto_url : `${STORAGE_URL}/${personel.foto_url}`) : null;
+    const fotoUrl = personel.foto_url ? (personel.foto_url.startsWith("http") ? personel.foto_url : `${STORAGE_URL}/${personel.foto_url}`) : null;
     const fotoBase64 = fotoUrl ? await toBase64(fotoUrl) : null;
 
     let y = 14;
@@ -211,7 +215,7 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
     }
 
     const infoX = fotoX + fotoW + 6;
-    let   infoY = fotoY + 6;
+    let infoY = fotoY + 6;
     doc.setFontSize(13); doc.setFont("helvetica", "bold"); doc.setTextColor(26, 26, 46);
     doc.text(personel.nama_lengkap || "–", infoX, infoY);
     infoY += 5;
@@ -222,13 +226,13 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
     const col1X = infoX, col2X = infoX + 58, col3X = infoX + 114;
     doc.setFontSize(7); doc.setTextColor(150);
     doc.text("JABATAN SAAT INI", col1X, infoY);
-    doc.text("JENIS PERSONEL",   col2X, infoY);
+    doc.text("JENIS PERSONEL", col2X, infoY);
     doc.text("TMT PANGKAT TERAKHIR", col3X, infoY);
     infoY += 4;
     doc.setFontSize(9); doc.setFont("helvetica", "bold"); doc.setTextColor(26, 26, 46);
     const jabLines = doc.splitTextToSize(personel.jabatan_sekarang || "–", 54);
-    doc.text(jabLines,                              col1X, infoY);
-    doc.text(personel.jenis_personel || "–",        col2X, infoY);
+    doc.text(jabLines, col1X, infoY);
+    doc.text(personel.jenis_personel || "–", col2X, infoY);
     doc.text(formatTgl(personel.tmt_pangkat_terakhir), col3X, infoY);
     doc.setFont("helvetica", "normal"); doc.setTextColor(0);
 
@@ -241,38 +245,38 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
     y += 4;
 
     const identitas = [
-      ["Nama",            personel.nama_lengkap],
-      ["Pangkat",         personel.pangkat],
-      ["NRP",             personel.nrp],
-      ["Tgl Lahir",       formatTgl(personel.tanggal_lahir)],
-      ["Tempat Lahir",    personel.tempat_lahir   || "–"],
-      ["Gol. Darah",      personel.golongan_darah || "–"],
-      ["Agama",           personel.agama          || "–"],
-      ["Status Marital",  personel.status_marital || "–"],
-      ["Suku",            personel.suku           || "–"],
-      ["Jenis Kelamin",   personel.jenis_kelamin  || "–"],
-      ["Tinggi Badan",    personel.tinggi_badan   ? `${personel.tinggi_badan} cm` : "–"],
-      ["Berat Badan",     personel.berat_badan    ? `${personel.berat_badan} kg`  : "–"],
-      ["Alamat",          personel.alamat_domisili || "–"],
-      ["NIK KTP",         personel.nik_ktp        || "–"],
-      ["NPWP",            personel.npwp           || "–"],
-      ["Asal Masuk Dikma",personel.asal_masuk_dikma || "–"],
-      ["Angkatan Dikma",  personel.angkatan_dikma || "–"],
+      ["Nama", personel.nama_lengkap],
+      ["Pangkat", personel.pangkat],
+      ["NRP", personel.nrp],
+      ["Tgl Lahir", formatTgl(personel.tanggal_lahir)],
+      ["Tempat Lahir", personel.tempat_lahir || "–"],
+      ["Gol. Darah", personel.golongan_darah || "–"],
+      ["Agama", personel.agama || "–"],
+      ["Status Marital", personel.status_marital || "–"],
+      ["Suku", personel.suku || "–"],
+      ["Jenis Kelamin", personel.jenis_kelamin || "–"],
+      ["Tinggi Badan", personel.tinggi_badan ? `${personel.tinggi_badan} cm` : "–"],
+      ["Berat Badan", personel.berat_badan ? `${personel.berat_badan} kg` : "–"],
+      ["Alamat", personel.alamat_domisili || "–"],
+      ["NIK KTP", personel.nik_ktp || "–"],
+      ["NPWP", personel.npwp || "–"],
+      ["Asal Masuk Dikma", personel.asal_masuk_dikma || "–"],
+      ["Angkatan Dikma", personel.angkatan_dikma || "–"],
     ];
 
-    const half   = Math.ceil(identitas.length / 2);
-    const colAX  = margin;
-    const colBX  = pageW / 2 + 2;
-    const colW   = pageW / 2 - margin - 4;
+    const half = Math.ceil(identitas.length / 2);
+    const colAX = margin;
+    const colBX = pageW / 2 + 2;
+    const colW = pageW / 2 - margin - 4;
     const labelW = 36;
-    const rowH   = 6;
+    const rowH = 6;
 
     doc.setFontSize(9);
     identitas.forEach((item, idx) => {
       const isRight = idx >= half;
-      const rowIdx  = isRight ? idx - half : idx;
-      const x       = isRight ? colBX : colAX;
-      const rowY    = y + rowIdx * rowH;
+      const rowIdx = isRight ? idx - half : idx;
+      const x = isRight ? colBX : colAX;
+      const rowY = y + rowIdx * rowH;
       doc.setFont("helvetica", "normal"); doc.setTextColor(120);
       doc.text(item[0], x, rowY);
       doc.setFont("helvetica", "bold"); doc.setTextColor(26, 26, 46);
@@ -300,8 +304,8 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
         theme: "grid",
         head: [["TAHUN", "NAMA INSTITUSI", "JENIS"]],
         body: pendidikan.map(p => [p.tahun || "–", p.nama_institusi || "–", p.jenis_pendidikan || "–"]),
-        headStyles: { fillColor: [245,245,245], textColor: [100,100,100], fontStyle: "bold", fontSize: 8 },
-        bodyStyles: { fontSize: 9, textColor: [40,40,40] },
+        headStyles: { fillColor: [245, 245, 245], textColor: [100, 100, 100], fontStyle: "bold", fontSize: 8 },
+        bodyStyles: { fontSize: 9, textColor: [40, 40, 40] },
         columnStyles: { 0: { cellWidth: 18 }, 2: { cellWidth: 30 } },
         styles: { cellPadding: 2 },
         margin: { left: margin, right: margin },
@@ -328,8 +332,8 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
           i + 1, j.nama_jabatan || "–", j.pangkat_saat_itu || "–",
           `${formatTgl(j.tmt_mulai)} – ${j.tmt_selesai ? formatTgl(j.tmt_selesai) : "Sekarang"}`,
         ]),
-        headStyles: { fillColor: [245,245,245], textColor: [100,100,100], fontStyle: "bold", fontSize: 8 },
-        bodyStyles: { fontSize: 9, textColor: [40,40,40] },
+        headStyles: { fillColor: [245, 245, 245], textColor: [100, 100, 100], fontStyle: "bold", fontSize: 8 },
+        bodyStyles: { fontSize: 9, textColor: [40, 40, 40] },
         columnStyles: { 0: { cellWidth: 10 }, 2: { cellWidth: 28 }, 3: { cellWidth: 52 } },
         styles: { cellPadding: 2 },
         margin: { left: margin, right: margin },
@@ -355,21 +359,21 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
   const eduClass = { Militer: "edu-militer", Spesialisasi: "edu-spesialisasi", Umum: "edu-umum", Akademik: "edu-umum" };
 
   if (loading) return (
-    <div className="datadiri-wrapper" style={{ display:"flex", alignItems:"center", justifyContent:"center", height:"100vh", fontSize:14, color:"#aaa" }}>
+    <div className="datadiri-wrapper" style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", fontSize: 14, color: "#aaa" }}>
       Memuat data personel...
     </div>
   );
 
   if (error) return (
-    <div className="datadiri-wrapper" style={{ display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", height:"100vh", gap:12 }}>
-      <div style={{ fontSize:14, color:"#e53e3e" }}>{error}</div>
+    <div className="datadiri-wrapper" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh", gap: 12 }}>
+      <div style={{ fontSize: 14, color: "#e53e3e" }}>{error}</div>
       <button className="back-btn" onClick={() => onNavigate("personnel")}><FiChevronLeft size={15} /> {t("back")}</button>
     </div>
   );
 
   if (!loading && !error && !personel) return (
-    <div className="datadiri-wrapper" style={{ display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", height:"100vh", gap:12 }}>
-      <div style={{ fontSize:14, color:"#555" }}>{t("personnel_not_found")}</div>
+    <div className="datadiri-wrapper" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh", gap: 12 }}>
+      <div style={{ fontSize: 14, color: "#555" }}>{t("personnel_not_found")}</div>
       <button className="back-btn" onClick={() => onNavigate("personnel")}><FiChevronLeft size={15} /> {t("back")}</button>
     </div>
   );
@@ -404,7 +408,7 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
                 ))}
               </div>
               {!expandNotif && notifList.length > 2 && (
-                <div className="notif-dropdown-footer" style={{ cursor:"pointer" }} onClick={() => setExpandNotif(true)}>
+                <div className="notif-dropdown-footer" style={{ cursor: "pointer" }} onClick={() => setExpandNotif(true)}>
                   {t("view_all_notifications")}
                 </div>
               )}
@@ -416,7 +420,7 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
               <div className="user-role">{admin.pangkat || ""}</div>
             </div>
             {admin.foto_url ? (
-              <img src={getFotoUrl(admin.foto_url)} className="user-avatar" alt="Admin" style={{ objectFit:"cover" }}
+              <img src={getFotoUrl(admin.foto_url)} className="user-avatar" alt="Admin" style={{ objectFit: "cover" }}
                 onError={(e) => { e.target.onerror = null; e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(admin.nama_lengkap || "Admin")}&background=random`; }} />
             ) : (
               <div className="user-avatar av-user" />
@@ -426,9 +430,9 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
             <div className="user-dropdown">
               <div className="user-dropdown-header">
                 {admin.foto_url ? (
-                  <img src={getFotoUrl(admin.foto_url)} className="user-dropdown-avatar" alt="Admin" style={{ objectFit:"cover" }} />
+                  <img src={getFotoUrl(admin.foto_url)} className="user-dropdown-avatar" alt="Admin" style={{ objectFit: "cover" }} />
                 ) : (
-                  <div className="user-dropdown-avatar" style={{ background:"#8b6f47" }} />
+                  <div className="user-dropdown-avatar" style={{ background: "#8b6f47" }} />
                 )}
                 <div>
                   <div className="user-dropdown-name">{admin.nama_lengkap}</div>
@@ -451,7 +455,7 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
           <span className="dd-divider">|</span>
           <div className="dd-header-title"><FiUser size={16} /> {t("personnel_detail")}</div>
           {personel.status_personel === "Aktif" && (
-            <div className="dd-verified"><FiCheck size={14} style={{ color:"#22c55e" }} /> {t("verified")}</div>
+            <div className="dd-verified"><FiCheck size={14} style={{ color: "#22c55e" }} /> {t("verified")}</div>
           )}
         </div>
         <div className="dd-header-actions">
@@ -464,7 +468,7 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
       <div className="dd-content">
         <div className="print-header">
           <h1>SISTEM INFORMASI PERSONEL TNI ANGKATAN UDARA</h1>
-          <p>DISINFOLAHTAU · Tanggal Cetak: {new Date().toLocaleDateString("id-ID", { day:"2-digit", month:"long", year:"numeric" })}</p>
+          <p>DISINFOLAHTAU · Tanggal Cetak: {new Date().toLocaleDateString("id-ID", { day: "2-digit", month: "long", year: "numeric" })}</p>
         </div>
 
         <div>
@@ -478,7 +482,7 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
                 <span>{personel.pangkat}</span><span className="profile-meta-sep">·</span>
                 <span>NRP: {personel.nrp}</span><span className="profile-meta-sep">·</span>
                 <span>{personel.satker}</span>
-                <button className="profile-status-btn" style={{ marginLeft:"auto" }}>{personel.status_personel} · Dinas Dalam</button>
+                <button className="profile-status-btn" style={{ marginLeft: "auto" }}>{personel.status_personel} · Dinas Dalam</button>
               </div>
               <div className="profile-details-grid">
                 <div><div className="detail-field-label">Jabatan Saat Ini</div><div className="detail-field-value">{personel.jabatan_sekarang || "–"}</div></div>
@@ -500,56 +504,66 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
                   <form onSubmit={handleSaveChanges}>
                     <div className="identity-grid">
                       {[
-                        ["Nama Lengkap",     "nama_lengkap",     "text"],
-                        ["Tempat Lahir",     "tempat_lahir",     "text"],
-                        ["Tanggal Lahir",    "tanggal_lahir",    "date"],
-                        ["Golongan Darah",   "golongan_darah",   "text"],
-                        ["Agama",            "agama",            "text"],
-                        ["Status Marital",   "status_marital",   "text"],
-                        ["Suku",             "suku",             "text"],
-                        ["Jenis Kelamin",    "jenis_kelamin",    "text"],
-                        ["Tinggi Badan",     "tinggi_badan",     "number"],
-                        ["Berat Badan",      "berat_badan",      "number"],
-                        ["Alamat Domisili",  "alamat_domisili",  "text"],
-                        ["NIK KTP",          "nik_ktp",          "text"],
-                        ["NPWP",             "npwp",             "text"],
+                        ["Nama Lengkap", "nama_lengkap", "text"],
+                        ["Tempat Lahir", "tempat_lahir", "text"],
+                        ["Tanggal Lahir", "tanggal_lahir", "date"],
+                        ["Golongan Darah", "golongan_darah", "text"],
+                        ["Agama", "agama", "text"],
+                        ["Status Marital", "status_marital", "text"],
+                        ["Suku", "suku", "text"],
+                        ["Jenis Kelamin", "jenis_kelamin", "text"],
+                        ["Tinggi Badan", "tinggi_badan", "number"],
+                        ["Berat Badan", "berat_badan", "number"],
+                        ["Alamat Domisili", "alamat_domisili", "text"],
+                        ["NIK KTP", "nik_ktp", "text"],
+                        ["NPWP", "npwp", "text"],
                         ["Asal Masuk Dikma", "asal_masuk_dikma", "text"],
-                        ["Angkatan Dikma",   "angkatan_dikma",   "text"],
+                        ["Angkatan Dikma", "angkatan_dikma", "text"],
+                        ...(editData.status_personel === 'Cuti' ? [
+                          ["Cuti Mulai", "cuti_mulai", "date"],
+                          ["Cuti Selesai", "cuti_selesai", "date"],
+                        ] : []),
+                        ...(editData.status_personel === 'Pendidikan' ? [
+                          ["Lokasi Pendidikan", "pendidikan_lokasi", "text"],
+                        ] : []),
+                        ...(editData.status_personel === 'Pensiun' ? [
+                          ["Mulai Pensiun", "pensiun_mulai", "date"],
+                        ] : []),
                       ].map(([label, key, type]) => (
                         <div className="identity-row" key={key}>
                           <span className="identity-label">{label}</span>
                           <input type={type} value={editData[key] || ""} onChange={(e) => setEditData({ ...editData, [key]: e.target.value })}
-                            style={{ flex:1, padding:"8px", border:"1px solid #ddd", borderRadius:"4px" }} />
+                            style={{ flex: 1, padding: "8px", border: "1px solid #ddd", borderRadius: "4px" }} />
                         </div>
                       ))}
                     </div>
-                    <div style={{ marginTop:16, display:"flex", justifyContent:"flex-end", gap:12 }}>
-                      <button type="button" onClick={() => setEditMode(false)} style={{ padding:"8px 16px", border:"1px solid #ddd", borderRadius:"4px", background:"#fff", cursor:"pointer" }}>Batal</button>
-                      <button type="submit" style={{ padding:"8px 16px", border:"none", borderRadius:"4px", background:"#2563eb", color:"#fff", cursor:"pointer" }}>Simpan Perubahan</button>
+                    <div style={{ marginTop: 16, display: "flex", justifyContent: "flex-end", gap: 12 }}>
+                      <button type="button" onClick={() => setEditMode(false)} style={{ padding: "8px 16px", border: "1px solid #ddd", borderRadius: "4px", background: "#fff", cursor: "pointer" }}>Batal</button>
+                      <button type="submit" style={{ padding: "8px 16px", border: "none", borderRadius: "4px", background: "#2563eb", color: "#fff", cursor: "pointer" }}>Simpan Perubahan</button>
                     </div>
                   </form>
                 ) : (
                   <div className="identity-grid">
                     {/* ── Kolom kiri: data dasar ── */}
                     {[
-                      ["Nama",             personel.nama_lengkap],
-                      ["Pangkat",          personel.pangkat],
-                      ["NRP",              personel.nrp],
-                      ["Tanggal Lahir",    formatTgl(personel.tanggal_lahir)],
-                      ["Tempat Lahir",     personel.tempat_lahir    || "–"],
-                      ["Golongan Darah",   personel.golongan_darah  || "–"],
-                      ["Agama",            personel.agama           || "–"],
-                      ["Status Marital",   personel.status_marital  || "–"],
-                      ["Suku",             personel.suku            || "–"],
-                      ["Jenis Kelamin",    personel.jenis_kelamin   || "–"],
-                      ["Tinggi Badan",     personel.tinggi_badan    ? personel.tinggi_badan + " cm" : "–"],
-                      ["Berat Badan",      personel.berat_badan     ? personel.berat_badan  + " kg" : "–"],
-                      ["Alamat Domisili",  personel.alamat_domisili || "–"],
+                      ["Nama", personel.nama_lengkap],
+                      ["Pangkat", personel.pangkat],
+                      ["NRP", personel.nrp],
+                      ["Tanggal Lahir", formatTgl(personel.tanggal_lahir)],
+                      ["Tempat Lahir", personel.tempat_lahir || "–"],
+                      ["Golongan Darah", personel.golongan_darah || "–"],
+                      ["Agama", personel.agama || "–"],
+                      ["Status Marital", personel.status_marital || "–"],
+                      ["Suku", personel.suku || "–"],
+                      ["Jenis Kelamin", personel.jenis_kelamin || "–"],
+                      ["Tinggi Badan", personel.tinggi_badan ? personel.tinggi_badan + " cm" : "–"],
+                      ["Berat Badan", personel.berat_badan ? personel.berat_badan + " kg" : "–"],
+                      ["Alamat Domisili", personel.alamat_domisili || "–"],
                       // ── 4 field yang sebelumnya tidak ditampilkan ──
-                      ["NIK KTP",          personel.nik_ktp         || "–"],
-                      ["NPWP",             personel.npwp            || "–"],
+                      ["NIK KTP", personel.nik_ktp || "–"],
+                      ["NPWP", personel.npwp || "–"],
                       ["Asal Masuk Dikma", personel.asal_masuk_dikma || "–"],
-                      ["Angkatan Dikma",   personel.angkatan_dikma  || "–"],
+                      ["Angkatan Dikma", personel.angkatan_dikma || "–"],
                     ].map(([label, value]) => (
                       <div className="identity-row" key={label}>
                         <span className="identity-label">{label}</span>
@@ -571,7 +585,7 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
             {openSections.pendidikan && (
               <div className="section-body">
                 {pendidikan.length === 0 ? (
-                  <div style={{ padding:"16px", fontSize:13, color:"#aaa" }}>Belum ada data pendidikan.</div>
+                  <div style={{ padding: "16px", fontSize: 13, color: "#aaa" }}>Belum ada data pendidikan.</div>
                 ) : (
                   <table className="edu-table">
                     <thead><tr><th>TAHUN</th><th>NAMA INSTITUSI</th><th>JENIS</th></tr></thead>
@@ -599,7 +613,7 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
             {openSections.jabatan && (
               <div className="section-body">
                 {jabatanList.length === 0 ? (
-                  <div style={{ padding:"16px", fontSize:13, color:"#aaa" }}>Belum ada data jabatan.</div>
+                  <div style={{ padding: "16px", fontSize: 13, color: "#aaa" }}>Belum ada data jabatan.</div>
                 ) : (
                   <div className="jabatan-list">
                     {jabatanList.map((j, i) => (
@@ -650,7 +664,7 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
                   </div>
                 </div>
               ))}
-              {riwayatLog.length === 0 && <div style={{ padding:"12px", fontSize:13, color:"#aaa" }}>{t("no_history")}</div>}
+              {riwayatLog.length === 0 && <div style={{ padding: "12px", fontSize: 13, color: "#aaa" }}>{t("no_history")}</div>}
             </div>
             <button className="lihat-riwayat" onClick={() => setShowRiwayatModal(true)}>{t("view_all_updates")} <FiClock size={13} /></button>
           </div>
@@ -688,7 +702,7 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
           <div className="modal-box" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">{t("all_update_history")}<button className="modal-close" onClick={() => setShowRiwayatModal(false)}><FiX size={18} /></button></div>
             <div className="modal-body">
-              {riwayatLog.length === 0 ? <div style={{ fontSize:13, color:"#aaa", padding:8 }}>{t("no_history")}</div> : (
+              {riwayatLog.length === 0 ? <div style={{ fontSize: 13, color: "#aaa", padding: 8 }}>{t("no_history")}</div> : (
                 riwayatLog.map((r, i) => (
                   <div className="modal-riwayat-item" key={i}>
                     <div className="modal-riwayat-dot" />
@@ -709,7 +723,7 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
         <div className="modal-overlay" onClick={() => setShowPrivasiModal(false)}>
           <div className="modal-box" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">Kebijakan Privasi <button className="modal-close" onClick={() => setShowPrivasiModal(false)}><FiX size={18} /></button></div>
-            <div className="modal-body"><p style={{ fontSize:13, color:"#555", lineHeight:1.8 }}>Sistem DISINFOLAHTAU berkomitmen menjaga kerahasiaan seluruh data personel TNI AU. Data bersifat rahasia negara.</p></div>
+            <div className="modal-body"><p style={{ fontSize: 13, color: "#555", lineHeight: 1.8 }}>Sistem DISINFOLAHTAU berkomitmen menjaga kerahasiaan seluruh data personel TNI AU. Data bersifat rahasia negara.</p></div>
           </div>
         </div>
       )}
@@ -719,10 +733,10 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
           <div className="modal-box" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">Bantuan IT <button className="modal-close" onClick={() => setShowBantuanModal(false)}><FiX size={18} /></button></div>
             <div className="modal-body">
-              <div style={{ display:"flex", flexDirection:"column", gap:0, border:"1px solid #f0f0f0", borderRadius:8, overflow:"hidden" }}>
-                {[["Helpdesk","disinfolahtau@tniau.mil.id"],["Telepon","(021) 800-1234"],["Jam Layanan","Senin – Jumat, 08:00 – 17:00 WIB"],["Darurat 24 Jam","+62 812-0000-1234"]].map(([k,v]) => (
-                  <div key={k} style={{ display:"flex", justifyContent:"space-between", padding:"11px 14px", fontSize:13, borderBottom:"1px solid #f7f7f7" }}>
-                    <span style={{ color:"#888" }}>{k}</span><strong style={{ color:"#1a1a2e" }}>{v}</strong>
+              <div style={{ display: "flex", flexDirection: "column", gap: 0, border: "1px solid #f0f0f0", borderRadius: 8, overflow: "hidden" }}>
+                {[["Helpdesk", "disinfolahtau@tniau.mil.id"], ["Telepon", "(021) 800-1234"], ["Jam Layanan", "Senin – Jumat, 08:00 – 17:00 WIB"], ["Darurat 24 Jam", "+62 812-0000-1234"]].map(([k, v]) => (
+                  <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "11px 14px", fontSize: 13, borderBottom: "1px solid #f7f7f7" }}>
+                    <span style={{ color: "#888" }}>{k}</span><strong style={{ color: "#1a1a2e" }}>{v}</strong>
                   </div>
                 ))}
               </div>

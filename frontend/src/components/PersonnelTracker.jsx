@@ -217,6 +217,10 @@ export default function PersonnelTracker({ onNavigate, onLogout, initFilter }) {
     satker_id: "",
     jabatan_sekarang: "",
     status_personel: "Aktif",
+    cuti_mulai: "",
+    cuti_selesai: "",
+    pendidikan_lokasi: "",
+    pensiun_mulai: "",
     tempat_lahir: "",
     tanggal_lahir: "",
     golongan_darah: "",
@@ -297,6 +301,23 @@ export default function PersonnelTracker({ onNavigate, onLogout, initFilter }) {
       fetchNotifikasi();
     } catch (e) {
       console.error(e);
+    }
+  }
+
+  function cekCutiHabis(data) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const habis = data.filter(p => {
+      if (p.status !== 'Cuti' || !p.cuti_selesai) return false;
+      const selesai = new Date(p.cuti_selesai);
+      selesai.setHours(0, 0, 0, 0);
+      return selesai <= today;
+    });
+
+    if (habis.length > 0) {
+      const names = habis.map(p => `• ${p.nama_lengkap} (${p.nrp})`).join('\n');
+      alert(`⚠️ Masa cuti telah habis untuk ${habis.length} personel:\n\n${names}\n\nSegera perbarui status personel tersebut.`);
     }
   }
 
@@ -912,6 +933,10 @@ export default function PersonnelTracker({ onNavigate, onLogout, initFilter }) {
                                           // Konversi ke string agar match dengan <option value>
                                           pangkat_id: String(d.data.pangkat_id || ''),
                                           satker_id: String(d.data.satker_id || ''),
+                                          cuti_mulai: d.data.cuti_mulai || '',
+                                          cuti_selesai: d.data.cuti_selesai || '',
+                                          pendidikan_lokasi: d.data.pendidikan_lokasi || '',
+                                          pensiun_mulai: d.data.pensiun_mulai || '',
                                           foto_baru: null,
                                         });
                                         // Load riwayat jabatan & pendidikan dari data existing
@@ -1130,6 +1155,38 @@ export default function PersonnelTracker({ onNavigate, onLogout, initFilter }) {
                       <option value="Pensiun">Pensiun</option>
                     </select>
                   </div>
+
+                  {formData.status_personel === 'Cuti' && (
+                    <>
+                      <div className="form-group">
+                        <label style={labelStyle}>Cuti Mulai</label>
+                        <input type="date" style={inputStyle} value={formData.cuti_mulai}
+                          onChange={(e) => setFormData({ ...formData, cuti_mulai: e.target.value })} />
+                      </div>
+                      <div className="form-group">
+                        <label style={labelStyle}>Cuti Selesai</label>
+                        <input type="date" style={inputStyle} value={formData.cuti_selesai}
+                          onChange={(e) => setFormData({ ...formData, cuti_selesai: e.target.value })} />
+                      </div>
+                    </>
+                  )}
+
+                  {formData.status_personel === 'Pendidikan' && (
+                    <div className="form-group">
+                      <label style={labelStyle}>Lokasi Pendidikan</label>
+                      <input type="text" placeholder="Contoh: Bandung, Jawa Barat" style={inputStyle}
+                        value={formData.pendidikan_lokasi || ''}
+                        onChange={(e) => setFormData({ ...formData, pendidikan_lokasi: e.target.value })} />
+                    </div>
+                  )}
+
+                  {formData.status_personel === 'Pensiun' && (
+                    <div className="form-group">
+                      <label style={labelStyle}>Mulai Pensiun</label>
+                      <input type="date" style={inputStyle} value={formData.pensiun_mulai}
+                        onChange={(e) => setFormData({ ...formData, pensiun_mulai: e.target.value })} />
+                    </div>
+                  )}
 
                   <div className="form-group">
                     <label style={labelStyle}>TMT Pangkat</label>
@@ -1370,6 +1427,38 @@ export default function PersonnelTracker({ onNavigate, onLogout, initFilter }) {
                       <option value="Pensiun">Pensiun</option>
                     </select>
                   </div>
+
+                  {editData.status_personel === 'Cuti' && (
+                    <>
+                      <div className="form-group">
+                        <label style={labelStyle}>Cuti Mulai</label>
+                        <input type="date" style={inputStyle} value={editData.cuti_mulai || ''}
+                          onChange={(e) => setEditData({ ...editData, cuti_mulai: e.target.value })} />
+                      </div>
+                      <div className="form-group">
+                        <label style={labelStyle}>Cuti Selesai</label>
+                        <input type="date" style={inputStyle} value={editData.cuti_selesai || ''}
+                          onChange={(e) => setEditData({ ...editData, cuti_selesai: e.target.value })} />
+                      </div>
+                    </>
+                  )}
+
+                  {editData.status_personel === 'Pendidikan' && (
+                    <div className="form-group">
+                      <label style={labelStyle}>Lokasi Pendidikan</label>
+                      <input type="text" placeholder="Contoh: Bandung, Jawa Barat" style={inputStyle}
+                        value={editData.pendidikan_lokasi || ''}
+                        onChange={(e) => setEditData({ ...editData, pendidikan_lokasi: e.target.value })} />
+                    </div>
+                  )}
+
+                  {editData.status_personel === 'Pensiun' && (
+                    <div className="form-group">
+                      <label style={labelStyle}>Mulai Pensiun</label>
+                      <input type="date" style={inputStyle} value={editData.pensiun_mulai || ''}
+                        onChange={(e) => setEditData({ ...editData, pensiun_mulai: e.target.value })} />
+                    </div>
+                  )}
 
                   <div className="form-group">
                     <label style={labelStyle}>TMT Pangkat</label>
