@@ -564,6 +564,16 @@ export default function DataDiri({ nrp, onNavigate, onLogout }) {
                       ["NPWP", personel.npwp || "–"],
                       ["Asal Masuk Dikma", personel.asal_masuk_dikma || "–"],
                       ["Angkatan Dikma", personel.angkatan_dikma || "–"],
+                      ...(personel.status_personel === 'Cuti' ? [
+                        ["Cuti Mulai", formatTgl(personel.cuti_mulai)],
+                        ["Cuti Selesai", formatTgl(personel.cuti_selesai)],
+                      ] : []),
+                      ...(personel.status_personel === 'Pendidikan' ? [
+                        ["Lokasi Pendidikan", personel.pendidikan_lokasi || "–"],
+                      ] : []),
+                      ...(personel.status_personel === 'Pensiun' ? [
+                        ["Mulai Pensiun", formatTgl(personel.pensiun_mulai)],
+                      ] : []),
                     ].map(([label, value]) => (
                       <div className="identity-row" key={label}>
                         <span className="identity-label">{label}</span>
